@@ -1,0 +1,74 @@
+﻿Hall effect sensor / Hall probe sensor
+
+
+Introduction
+Hall effect sensor is used to detect and measure the magnetic field around it. 
+Like all sensors this sensor takes magnetic data from the surroundings and maps it to the electrical signals for processing. 
+We know that magnetic field has 2 important properties; magnetic flux density (basically magnitude) and polarity (north or south pole). When the hall sensor detects the magnetic field it outputs a voltage called as hall voltage . 
+
+
+What is this hall effect and how is it used to detect magnetic field?
+Hall Effect Sensors consist basically of a thin piece of rectangular p-type semiconductor material such as gallium arsenide (GaAs), indium antimonide (InSb) or indium arsenide (InAs)and current is made to flow through a slab made of the above mentioned materials.
+When the sensor is kept in magnetic field the hall effect comes into picture. Since the electrons are moving through the slab they experience a force (lorentz force).
+Due to this there is an accumulation of -ve charge on one side of the slab and positive on the other. This gives to rise a voltage difference which we call as hall voltage. It is this voltage that serves as an output of the hall sensor. You can consider hall probe sensor as a one way transducer which converts magnetic energy to electrical energy. 
+
+
+
+
+Refer this animation for feel…                          
+  
+
+
+
+animation credits :www.explaininthatstuff.com 
+
+
+
+
+Some further processing :
+The voltage output of the hall sensor is obviously directly proportional to the strength of magnetic field in the surroundings of the sensor. The voltage difference generated across the conductor carrying current is in order of microvolts therefore we need to amplify it before use. 
+Here’s the circuit inside the sensor which gives us the amplified output : 
+
+
+     
+
+
+PS : don’t worry if you don’t get the circuit. Its nothing more than a voltage  amplifier. 
+
+
+
+
+Type of hall sensors available :
+Well in electronics when you think of classification the first 2 things that come to your mind are digital and analogue. The case here is nothing different. We have analog hall sensor and a digital one. 
+Which one you use depends on your project. If you want to just detect whether magnetic field is present or not and polarity then you will use digital sensor. If you need the more data about the magnetic field like magnetic field magnitude and polarity then you have to use analog sensor. 
+
+
+
+
+Applications of hall effect sensor : 
+Hall effect sensor finds its applications in many fields like in motors to get the data about the position of the armature, detecting proximity of any magnetic field , etc ,etc. To look up for more applications use google. 
+
+
+Interfacing with arduino :
+The sensor module we use is A1301 hall effect sensor. 
+Here is datasheet of A1301  
+To learn how to interface with arduino CLICK HERE . 
+
+
+More details about A1301 : 
+The output voltage of the sensor when there’s no magnetic field is Vcc/2. This voltage is known a quienscent voltage. Due to some thermal disturbance and random voltage disturbance we have some tolerance in the quienscent voltage. 
+We have a equation considering these factors . we will consider it if we need tha level of precision.
+
+
+A1301 features a ratiometric output. This means that the output is proportional to the supply voltage i.e Vcc (as you saw above that quienscient voltage is Vcc/2 ).
+The ratiometric change (%) in the quiescent voltage output is
+defined as:
+∆V outQ(∆V) =[(V outQ(Vcc ) / VoutQ(5V)) / (Vcc / 5) ]× 100%
+ 
+
+
+The output of the sensor increases when the south polarity magnetic field (+B)  is perpendicular to the face of the ic and it decreases when the north polarity magnetic is present. 
+
+
+Linearity and Symmetry
+The on-chip output stage is designed to provide linear output at a supply voltage of 5 V. Although the application of very high magnetic fields does not damage these devices, it does force their output into a nonlinear region.
