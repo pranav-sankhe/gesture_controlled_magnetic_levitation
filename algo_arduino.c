@@ -18,16 +18,16 @@
 
 int trig = 2;
 int echo = 3;
+int electromagnet = 5;           // th data cable which controls the electromagnet current. 
 
 int ultrasonic_read = 0;
 double Setpoint, Input, Output;
 PID myPID(&Input, &Output, &Setpoint,2,5,1, DIRECT);           // kp = 2;ki = 5;kd=1;
+Setpoint = 100;                                                // change this after calibration
 
 void setup()
 {
-	Input = analogRead(0);
-    Setpoint = 100;
-    Serial.begin(9600);
+	Serial.begin(9600);
 	myPID.SetMode(AUTOMATIC);
 }
 
@@ -38,7 +38,7 @@ void loop()
 	
 	input = ultrasonic_read;
   	myPID.Compute();
-  	analogWrite(3,output);
+  	analogWrite(5,output);				//output that will controll the current .volltage controlled current sources . (mosfets)
 
 							                                   //the ultrasonic sensor reading and then reduce the error.    
 
