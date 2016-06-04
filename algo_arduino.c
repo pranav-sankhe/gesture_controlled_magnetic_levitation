@@ -20,10 +20,21 @@ int trig = 2;
 int echo = 3;
 int electromagnet = 5;           // th data cable which controls the electromagnet current. 
 
+/*
+Stepper stepper_x(stepsPerRevolution, 8,9,10,11);
+Stepper stepper_y(stepsPerRevolution, 8,9,10,11);                //use a multiplexer circuit to reduce the number of pins.
+Stepper stepper_z(stepsPerRevolution, 8,9,10,11);
+*/
+
+
+
+
 int ultrasonic_read = 0;
 double Setpoint, Input, Output;
 PID myPID(&Input, &Output, &Setpoint,2,5,1, DIRECT);           // kp = 2;ki = 5;kd=1;
 Setpoint = 100;                                                // change this after calibration
+
+
 
 void setup()
 {
@@ -138,13 +149,12 @@ GetKd()
 GetMode()
 GetDirection()
 
-/*
 
+/*
 Stepper library info : 
 Stepper myStepper(stepsPerRevolution, 8,9,10,11);
 myStepper.setSpeed()
 myStepper.step()
-
 */
 
 
