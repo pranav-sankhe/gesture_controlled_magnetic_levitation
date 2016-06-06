@@ -21,18 +21,15 @@ int echo = 3;
 int electromagnet = 5;           // th data cable which controls the electromagnet current. 
 
 /*
-Stepper stepper_x(stepsPerRevolution, 8,9,10,11);
+Stepper stepper_+9*+```x(stepsPerRevolution, 8,9,10,11);
 Stepper stepper_y(stepsPerRevolution, 8,9,10,11);                //use a multiplexer circuit to reduce the number of pins.
 Stepper stepper_z(stepsPerRevolution, 8,9,10,11);
 */
 
-
-
-
 int ultrasonic_read = 0;
-double Setpoint, Input, Output;
-PID myPID(&Input, &Output, &Setpoint,2,5,1, DIRECT);           // kp = 2;ki = 5;kd=1;
-Setpoint = 100;                                                // change this after calibration
+double Setpoint, Input, Output;                                //the input, output and setpoint of the PID controller
+PID myPID(&Input, &Output, &Setpoint,2,5,1, DIRECT);           // kp = 2; ki = 5; kd=1;
+Setpoint = 100;                                                // change this after calibration of the electromagnet
 
 
 
@@ -40,6 +37,9 @@ void setup()
 {
 	Serial.begin(9600);
 	myPID.SetMode(AUTOMATIC);
+	pinMode(trig,OUTPUT);
+	pinMode(echo,INPUT);
+	pinMode(electromagnet,OUTPUT);
 }
 
 
@@ -49,7 +49,7 @@ void loop()
 	
 	input = ultrasonic_read;
   	myPID.Compute();
-  	analogWrite(5,output);				//output that will controll the current .volltage controlled current sources . (mosfets)
+  	analogWrite(5,output);				             //output that will controll the current .volltage controlled current sources . (mosfets)
 
 							                                   //the ultrasonic sensor reading and then reduce the error.    
 
@@ -156,11 +156,3 @@ Stepper myStepper(stepsPerRevolution, 8,9,10,11);
 myStepper.setSpeed()
 myStepper.step()
 */
-
-
-
-
-
-
-
-
