@@ -9,10 +9,12 @@
 #include <Stepper.h>
 #include <Wire.h>                                     //I2C      
 
+/*
 #include <MPU6050_6Axis_MotionApps20.h>				  
 #include <MPU6050.h>                                 //MPU 6050
 #include <MPU6050_9Axis_MotionApps41.h>
-//#include <helper_3dmath.h>
+#include <helper_3dmath.h>
+/*
 
 #include <PID_v1.h>                                  //PID 
 
@@ -28,8 +30,7 @@ Stepper stepper_z(stepsPerRevolution, 8,9,10,11);
 
 int ultrasonic_read = 0;
 double Setpoint, Input, Output;                                //the input, output and setpoint of the PID controller
-PID myPID(&Input, &Output, &Setpoint,2,5,1, DIRECT);           // kp = 2; ki = 5; kd=1;
-Setpoint = 100;                                                // change this after calibration of the electromagnet
+PID myPID(&Input, &Output, &Setpoint,2,5,1, DIRECT);           // kp = 2; ki = 5; kd=1;change this after calibration of the electromagnet
 
 
 
@@ -40,6 +41,7 @@ void setup()
 	pinMode(trig,OUTPUT);
 	pinMode(echo,INPUT);
 	pinMode(electromagnet,OUTPUT);
+     Setpoint = 100;                                                
 }
 
 
@@ -47,9 +49,14 @@ void loop()
 {
 	ultrasonic_read = ultrasonic();								    //we have to implement PID algo. set a setup point. get the error through 
 	
-	input = ultrasonic_read;
+	Input = ultrasonic_read;
   	myPID.Compute();
-  	analogWrite(5,output);				             //output that will controll the current .volltage controlled current sources . (mosfets)
+  	//analogWrite(electromagnet,output);				             //output that will controll the current .volltage controlled current sources . (mosfets)
+  	for (int fadeValue = 0 ; fadeValue <= 255; fadeValue += Output) {
+    
+    analogWrite(electromagnet, fadeValue);
+        delay(Output);
+}
 
 							                                   //the ultrasonic sensor reading and then reduce the error.    
 
@@ -57,17 +64,18 @@ void loop()
 }
 
 int ultrasonic()
-{   digitalWrite(trig,LOW);
-	digitalWrite(echo,LOW);
-	delayMicroseconds(2);
-	digitalWrite(trig,HIGH);
-	delayMicroseconds(10);
-	digitalWrite(trig,LOW);
+{    
+    digitalWrite(trig,LOW);
+    digitalWrite(echo,LOW);
+    delayMicroseconds(2);
+    digitalWrite(trig,HIGH);
+    delayMicroseconds(10); 
+    digitalWrite(trig,LOW);
 
-	long int duration = pulseIn(echo,HIGH);
-	int distance = duration/2/29.1; 
-	return distance ; 
-	//delay(20);
+    long int duration = pulseIn(echo,HIGH);
+    int distance = duration/2/29.1; 
+    return distance ; 
+    Serial.println(distance);
 }
 
 
