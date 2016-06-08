@@ -9,12 +9,6 @@
 #include <Stepper.h>
 #include <Wire.h>                                     //I2C      
 
-/*
-#include <MPU6050_6Axis_MotionApps20.h>				  
-#include <MPU6050.h>                                 //MPU 6050
-#include <MPU6050_9Axis_MotionApps41.h>
-#include <helper_3dmath.h>
-/*
 
 #include <PID_v1.h>                                  //PID 
 
@@ -30,33 +24,45 @@ Stepper stepper_z(stepsPerRevolution, 8,9,10,11);
 
 int ultrasonic_read = 0;
 double Setpoint, Input, Output;                                //the input, output and setpoint of the PID controller
-PID myPID(&Input, &Output, &Setpoint,2,5,1, DIRECT);           // kp = 2; ki = 5; kd=1;change this after calibration of the electromagnet
+PID myPID(&Input, &Output, &Setpoint,1,1,1, DIRECT);           // kp = 2; ki = 5; kd=1;change this after calibration of the electromagnet
 
 
 
 void setup()
 {
+                
 	Serial.begin(9600);
 	myPID.SetMode(AUTOMATIC);
 	pinMode(trig,OUTPUT);
 	pinMode(echo,INPUT);
 	pinMode(electromagnet,OUTPUT);
-     Setpoint = 100;                                                
+        Setpoint = 22;                                                
 }
 
 
 void loop()
 {
-	ultrasonic_read = ultrasonic();								    //we have to implement PID algo. set a setup point. get the error through 
-	
+        //int output=map(Output,0,255,0,2048);
+	int output=Output;
+        ultrasonic_read = ultrasonic();								    //we have to implement PID algo. set a setup point. get the error through 
+	Serial.print(ultrasonic_read);
+        //Serial.println("yo");
 	Input = ultrasonic_read;
+        
+        //digitalWrite(5,1); 
+        
   	myPID.Compute();
-  	//analogWrite(electromagnet,output);				             //output that will controll the current .volltage controlled current sources . (mosfets)
-  	for (int fadeValue = 0 ; fadeValue <= 255; fadeValue += Output) {
+        Serial.print("  pid output  ");
+        Serial.println(output);
+ /* 	//analogWrite(electromagnet,output);				             //output that will controll the current .volltage controlled current sources . (mosfets)
+  	for (int fadeValue = 0 ; fadeValue <= 255; fadeValue += Output) 
+  {
     
-    analogWrite(electromagnet, fadeValue);
+        analogWrite(electromagnet, fadeValue);
         delay(Output);
-}
+  }
+  */
+  delay(500);
 
 							                                   //the ultrasonic sensor reading and then reduce the error.    
 
@@ -72,10 +78,10 @@ int ultrasonic()
     delayMicroseconds(10); 
     digitalWrite(trig,LOW);
 
-    long int duration = pulseIn(echo,HIGH);
+    long int duration = pulseIn(echo,HIGH,8000);
     int distance = duration/2/29.1; 
     return distance ; 
-    Serial.println(distance);
+    
 }
 
 
