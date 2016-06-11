@@ -13,6 +13,7 @@ float Setpoint=19.5;
 
 const float pGain=20;
 const float dGain=50;
+const float iGain=100;
 
 float sensorRead;
 float prev_sensorRead;
@@ -60,6 +61,7 @@ void loop() {
   //this is control mode
   float err;
   float der;
+  float ier;
   
 
    if( (signed long)( millis() - millisCounter ) >= 0)
@@ -75,7 +77,7 @@ void loop() {
       err=Setpoint-sensorRead;
       der=prev_sensorRead-sensorRead;
 
-      power=controlBias+ int(pGain*err) + int(dGain*der);
+      power=controlBias+ int(pGain*err) + int(dGain*der)+int(iGain*ier);
       }
       Serial.print(ultrasonic());
       Serial.print("      ");
