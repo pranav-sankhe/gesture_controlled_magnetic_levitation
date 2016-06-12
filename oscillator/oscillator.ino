@@ -3,10 +3,12 @@ int coilPin_down=9;
 int trig=2;
 int echo=3;
 
-int freq = 1000;
-float Setpoint ;
+int freq = 10u;
+float Setpoint;
+
 void setup() {
-  pinMode(coilPin, OUTPUT);
+  pinMode(coilPin_down, OUTPUT);
+  pinMode(coilPin_up, OUTPUT);
   pinMode(trig, OUTPUT);
   pinMode(echo, INPUT);
   Serial.begin(9600);
@@ -45,23 +47,29 @@ void oscillator(int freq)
 {
     while(1)
     {
-      digitalWrite(coilPin_up;,1);
+      digitalWrite(coilPin_up,1);
+      digitalWrite(coilPin_down,0);
       delay(1000/freq);
-      digitalWrite(coil_down,1);
+      digitalWrite(coilPin_down,1);
+      digitalWrite(coilPin_up,0);
       delay(1000/freq);
      }
 }
 
 void loop()
 {
+    
     float ultrasonic_read = ultrasonic();
     Serial.println(ultrasonic_read);
+    delay(20);
+    oscillator(freq);
+    /*
     if(abs(ultrasonic_read-Setpoint)<2)    
     {
      Serial.print("oscilatting...."); 
      oscillator(freq); 
     }
     checkSerial();
-    
+    */
   
 }
