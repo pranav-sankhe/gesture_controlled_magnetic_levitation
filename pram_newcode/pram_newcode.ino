@@ -2,7 +2,9 @@
 //almost achieved levitation, object starts sliding when kept on a piece
 //of cardboard but falls down as soon as it is removed
 
-int coilPin=5;
+int coilPin_up=5;
+int coilPin_down=9;
+
 int trig=2;
 int echo=3;
 int power;
@@ -10,6 +12,7 @@ float currentPos;
 
 const int controlBias=220;
 float Setpoint=19.5;
+int threshold = 3;       
 
 
 /*
@@ -87,8 +90,9 @@ void loop() {
     
       prev_sensorRead = sensorRead;
       sensorRead =ultrasonic();
-      if(sensorRead>22.0){
-        power=0;
+      if(sensorRead>setpoint+threshold){
+        digitalWrite(coilPin_down,1);
+        digitalWrite(coilPin_up,0);
       }
       else{
       err=Setpoint-sensorRead;
@@ -107,6 +111,7 @@ void loop() {
       Serial.println(power);
       int mapped_power = map(power,0,1024,0,255);  
       analogWrite(coilPin,mapped_power);
+      digitalWrite(coilPin_down,0)
       checkSerial();
       delay(50);
    }
