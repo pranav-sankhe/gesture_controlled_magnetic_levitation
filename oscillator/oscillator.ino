@@ -51,7 +51,7 @@ void oscillator(int freq)
       digitalWrite(coilPin_down,0);
       delay(1000/freq);
       digitalWrite(coilPin_down,0);
-      digitalWrite(coilPin_up,0);
+      digitalWrite(coilPin_up,1);
       delay(1000/freq);
      }
 }

@@ -56,7 +56,7 @@ float ultrasonic()
 
     long double duration = pulseIn(echo,HIGH);
     float distance = duration/2/29.1; 
-    return distance ;
+    return distance;
      
     
 }
@@ -78,7 +78,7 @@ void loop() {
   float err;
   float der;
   float ier;
-  float IntThresh              //set it according to the observed values
+  float IntThresh ;             //set it according to the observed values
   
 
    if( (signed long)( millis() - millisCounter ) >= 0) //implement oscillator with pid                    //millis wala nahi chamka
