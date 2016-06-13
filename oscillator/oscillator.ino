@@ -3,7 +3,7 @@ int coilPin_down=9;
 int trig=2;
 int echo=3;
 
-int freq = 10u;
+int freq = 10;
 float Setpoint;
 
 void setup() {
@@ -50,7 +50,7 @@ void oscillator(int freq)
       digitalWrite(coilPin_up,1);
       digitalWrite(coilPin_down,0);
       delay(1000/freq);
-      digitalWrite(coilPin_down,1);
+      digitalWrite(coilPin_down,0);
       digitalWrite(coilPin_up,0);
       delay(1000/freq);
      }
