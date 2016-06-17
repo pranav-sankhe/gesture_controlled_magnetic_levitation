@@ -10,8 +10,8 @@ int echo=3;
 int power;
 float currentPos;
 
-const int controlBias=220;
-float Setpoint=19.5;
+const int controlBias=0;
+float Setpoint=17.58;
 int threshold = 3;       
 
 
@@ -30,9 +30,10 @@ achieving a set point where some overshoot and oscillations are an acceptable tr
 response is a different goal. Different control goals require different tunings. 
 */
 
-const float pGain=1;
-const float dGain=0;
-const float iGain=0;
+
+const float pGain=50;
+const float dGain=10;
+const float iGain=30;
 
 float sensorRead;
 float prev_sensorRead;
@@ -40,7 +41,8 @@ float prev_sensorRead;
 unsigned long millisCounter;
 
 void setup() {
-  pinMode(coilPin, OUTPUT);
+  pinMode(coilPin_up, OUTPUT);
+  pinMode(coilPin_down, OUTPUT);
   pinMode(trig, OUTPUT);
   pinMode(echo, INPUT);
   Serial.begin(9600);
@@ -90,13 +92,14 @@ void loop() {
     
       prev_sensorRead = sensorRead;
       sensorRead =ultrasonic();
-      if(sensorRead>setpoint+threshold){
+      delay(50);
+      if(sensorRead>Setpoint+threshold){
         digitalWrite(coilPin_down,1);
         digitalWrite(coilPin_up,0);
       }
       else{
       err=Setpoint-sensorRead;
-       if (abs(Error) < IntThresh){              // prevent integral 'windup'
+       if (abs(ier) < IntThresh){              // prevent integral 'windup'
             ier = ier + err;                     // accumulate the error integral
         }
         else {
@@ -107,11 +110,12 @@ void loop() {
       power=controlBias+ int(pGain*err) + int(dGain*der)+int(iGain*ier);
       }
       Serial.print(ultrasonic());
-      Serial.print("      ");
+      Serial.print("  power    ");
       Serial.println(power);
-      int mapped_power = map(power,0,1024,0,255);  
-      analogWrite(coilPin,mapped_power);
-      digitalWrite(coilPin_down,0)
+      //int mapped_power = map(power,0,1024,0,255);  
+      //analogWrite(coilPin_up,100);
+      digitalWrite(coilPin_down,0);
+      digitalWrite(coilPin_up,1);
       checkSerial();
       delay(50);
    }
