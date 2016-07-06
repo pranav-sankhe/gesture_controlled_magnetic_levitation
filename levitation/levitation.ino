@@ -1,9 +1,8 @@
 // Project 13 - Anti-gravity
 // 15 Dangerous Projects for the Evil Genius
-
-#define coilPin 11
-#define irPin 13
-#define sensorPin 0
+int  coilPin = 11;
+int irPin = 13;
+int sensorPin = 0;
 
 int A = 2;
 // Adjust B to improve stability 
@@ -49,7 +48,7 @@ void loop()
   // positive value means going downwards, negative going upwards
   int velocity = position - oldPosition; 
   int power = position / A + velocity * B + C;
-
+  Serial.println(power);
   powerCount += power;
   oldPosition = position;
   
@@ -100,4 +99,3 @@ void checkSerial()
     }
   }
 }
-
